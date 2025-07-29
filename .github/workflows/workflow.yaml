@@ -96,7 +96,6 @@ jobs:
     steps:
       - name: Print Dev Secrets
         run: |
-          printenv
           echo "=== environment secrets ==="
           echo "API_URL: ${{ vars.API_URL }}"
           echo "DB_NAME: ${{ vars.DB_NAME }}"
@@ -109,7 +108,6 @@ jobs:
     steps:
       - name: Print Prod Secrets
         run: |
-          printenv
           echo "=== environment secrets ==="
           echo "API_URL: ${{ vars.API_URL }}"
           echo "DB_NAME: ${{ vars.DB_NAME }}"
