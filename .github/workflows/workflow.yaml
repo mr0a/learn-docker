@@ -1,12 +1,8 @@
 name: Node-app CI/CD
 on:
   push:
-    paths:
-      - "github-actions-exercise/exercise"
     branches: [main, develop]
   pull_request:
-    paths:
-      - "github-actions-exercise/exercise"
     branches: [main, develop]
 
 env:
