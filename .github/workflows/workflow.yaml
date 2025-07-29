@@ -102,7 +102,7 @@ jobs:
           echo "DB_NAME: $DB_NAME"
 
       - name: Print Prod Secrets
-        if: ${{ github.ref_name == "main" }}
+        if: ${{ github.ref_name == 'main' }}
         environment: production
         run: |
           echo "=== environment secrets ==="
