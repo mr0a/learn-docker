@@ -1,8 +1,12 @@
 name: Node-app CI/CD
 on:
   push:
+    paths:
+      - "github-actions-exercise/exercise"
     branches: [main, develop]
   pull_request:
+    paths:
+      - "github-actions-exercise/exercise"
     branches: [main, develop]
 
 env:
@@ -12,8 +16,7 @@ env:
 jobs:
   build:
     strategy:
-      matrix:
-        node: [16, 18]
+      node: [16, 18]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,7 +28,7 @@ jobs:
 
       - name: Install Dependencies
         working-directory: ${{ env.APP_PATH }}
-        run: npm ci
+        run: npm i
 
       - name: Build app
         working-directory: ${{ env.APP_PATH }}
@@ -41,8 +44,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        node: [16, 18]
+      node: [16, 18]
     steps:
       - uses: actions/checkout@v4
 
@@ -53,7 +55,7 @@ jobs:
 
       - name: Install Dependencies
         working-directory: ${{ env.APP_PATH }}
-        run: npm ci
+        run: npm i
 
       - name: Run test
         working-directory: ${{ env.APP_PATH }}
@@ -87,15 +89,3 @@ jobs:
           IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/node-app
           docker tag node-app:latest $IMAGE_NAME:latest
           docker push $IMAGE_NAME:latest
-
-  deploy:
-    needs: publish-docker
-    # if: ${{ github.ref_name == 'develop' }}
-    runs-on: ubuntu-latest
-    environment: ${{ github.ref_name == 'main' && 'production' || 'development' }}
-    steps:
-      - name: Print Dev Secrets
-        run: |
-          echo "=== environment secrets ==="
-          echo "API_URL: ${{ vars.API_URL }}"
-          echo "DB_NAME: ${{ vars.DB_NAME }}"

@@ -1,0 +1,8 @@
+name: Delete Trigger
+on:
+  delete:
+jobs:
+  delete:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Delete Event Data:" && echo '${{ toJson(github.event) }}'

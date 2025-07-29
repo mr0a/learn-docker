@@ -1,0 +1,9 @@
+name: Push to Branches
+on:
+  push:
+    branches: [main, develop]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Push Event Data:" && echo '${{ toJson(github.event) }}'

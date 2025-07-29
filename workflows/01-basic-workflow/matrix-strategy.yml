@@ -1,0 +1,15 @@
+name: Matrix Strategy
+on: push
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [16, 18, 20]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+      - run: node -v
+      - run: echo "Running Node ${{ matrix.node }} on ${{ matrix.os }}"

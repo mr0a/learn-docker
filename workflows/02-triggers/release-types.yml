@@ -1,0 +1,9 @@
+name: Release Trigger
+on:
+  release:
+    types: [published, edited]
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Release Event Data:" && echo '${{ toJson(github.event) }}'
