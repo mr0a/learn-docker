@@ -1,0 +1,36 @@
+services:
+  backend:
+    build:
+      context: backend
+    container_name: node-backend
+    depends_on:
+      - db
+    ports:
+      - 8000:8000
+    environment:
+      - MONGO_URI=mongodb://db:27017
+    networks:
+      - backend-service
+
+  frontend:
+    build:
+      context: frontend
+    container_name: plain-frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+
+  db:
+    image: mongo:latest
+    container_name: mongodb
+    networks:
+      - backend-service
+    volumes:
+      - mongo_data:/data/db
+
+networks:
+  backend-service:
+
+volumes:
+  mongo_data:
