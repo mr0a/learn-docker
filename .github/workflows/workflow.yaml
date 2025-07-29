@@ -1,6 +1,7 @@
 name: Node-app CI/CD
 on:
   push:
+    paths: github-actions-exercise/exercise
     branches: [main, develop]
   pull_request:
     branches: [main, develop]
@@ -87,3 +88,23 @@ jobs:
           IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/node-app
           docker tag node-app:latest $IMAGE_NAME:latest
           docker push $IMAGE_NAME:latest
+
+  deploy:
+    needs: publish-docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Dev Secrets
+        if: ${{ github.ref_name == 'develop' }}
+        environment: development
+        run: |
+          echo "=== environment secrets ==="
+          echo "API_URL: $API_URL"
+          echo "DB_NAME: $DB_NAME"
+
+      - name: Print Prod Secrets
+        if: ${{ github.ref_name == "main" }}
+        environment: production
+        run: |
+          echo "=== environment secrets ==="
+          echo "API_URL: $API_URL"
+          echo "DB_NAME: $DB_NAME"
