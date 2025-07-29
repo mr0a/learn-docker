@@ -1,0 +1,9 @@
+name: Scheduled Workflow
+on:
+  schedule:
+    - cron: "0 */1 * * *"
+jobs:
+  scheduled:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Schedule Event Data:" && echo '${{ toJson(github.event) }}'

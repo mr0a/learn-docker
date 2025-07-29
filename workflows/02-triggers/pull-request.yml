@@ -1,0 +1,8 @@
+name: Pull Request Trigger
+on:
+  pull_request:
+jobs:
+  pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Pull Request Event Data:" && echo '${{ toJson(github.event) }}'

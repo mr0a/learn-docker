@@ -1,0 +1,67 @@
+name: Environment Variables and Secrets
+on: 
+  push:
+
+env:
+  APP_ENV: production
+  APP_NAME: my-app
+  DATABASE_URL: mongodb://localhost:27017/global_db
+
+jobs:
+  env-demo:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: mongodb://localhost:27017/job_db
+    
+    steps:
+      - name: Global Environment Variables
+        run: |
+          echo "APP_ENV: $APP_ENV"
+          echo "APP_NAME: $APP_NAME"
+      
+      - name: Job Environment Variables
+        run: echo "DATABASE_URL: $DATABASE_URL"
+      
+      - name: Step Environment Variables
+        env:
+          DATABASE_URL: mongodb://localhost:27017/step_db
+        run: echo "DATABASE_URL: $DATABASE_URL"
+      
+      - name: Dynamic Environment Variables
+        run: |
+          echo "BRANCH=${{ github.ref_name }}" >> $GITHUB_ENV
+      
+      - name: Use Dynamic Variables
+        run: |
+          echo "BRANCH: $BRANCH"
+      
+      - name: GitHub Built-in Variables
+        run: |
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Actor: $GITHUB_ACTOR"
+          echo "Runner OS: $RUNNER_OS"
+      
+      - name: Using Repository Secrets
+        env:
+          API_KEY: ${{ secrets.API_KEY || 'demo-repo-api-key' }}
+        run: |
+          echo "=== REPOSITORY-LEVEL SECRETS ==="
+          echo "API_KEY: $API_KEY"
+          
+      - name: Using Staging secrets
+        if: ${{ github.ref_name == 'develop' }}
+        environment: staging
+        env:
+          API_KEY: ${{ secrets.API_KEY || 'demo-api-key' }}
+        run: |
+          echo "=== STAGING ENVIRONMENT SECRETS ==="
+          echo "API_KEY: $API_KEY"
+      
+      - name: Using Prod secrets
+        if: ${{ github.ref_name == 'main' }}
+        environment: production
+        env:
+          API_KEY: ${{ secrets.API_KEY || 'demo-api-key' }}
+        run: |
+          echo "=== PRODUCTION ENVIRONMENT SECRETS ==="
+          echo "API_KEY: $API_KEY"

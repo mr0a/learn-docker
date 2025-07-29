@@ -1,0 +1,33 @@
+name: GitHub Contexts Demo
+on:
+  workflow_dispatch:
+
+jobs:
+  github-contexts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Basic GitHub Contexts
+        run: |
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Branch/Ref: ${{ github.ref_name }}"
+          echo "Full Ref: ${{ github.ref }}"
+          echo "SHA: ${{ github.sha }}"
+          echo "Workflow: ${{ github.workflow }}"
+          echo "Job: ${{ github.job }}"
+          echo "Run ID: ${{ github.run_id }}"
+          echo "Run Number: ${{ github.run_number }}"
+
+      - name: Event Information
+        run: |
+          echo "Event Name: ${{ github.event_name }}"
+          echo "Event Action: ${{ github.event.action }}"
+
+      - name: Runner Information
+        run: |
+          echo "Runner OS: ${{ runner.os }}"
+          echo "Runner Architecture: ${{ runner.arch }}"
+          echo "Runner Name: ${{ runner.name }}"
+
+      - name: Complete GitHub Context (JSON)
+        run: echo '${{ toJson(github) }}'
