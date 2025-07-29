@@ -16,7 +16,8 @@ env:
 jobs:
   build:
     strategy:
-      node: [16, 18]
+      matrix:
+        node: [16, 18]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -44,7 +45,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     strategy:
-      node: [16, 18]
+      matrix:
+        node: [16, 18]
     steps:
       - uses: actions/checkout@v4
 
