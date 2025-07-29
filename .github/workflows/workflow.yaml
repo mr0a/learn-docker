@@ -88,25 +88,13 @@ jobs:
           docker tag node-app:latest $IMAGE_NAME:latest
           docker push $IMAGE_NAME:latest
 
-  deploy-develop:
+  deploy:
     needs: publish-docker
-    if: ${{ github.ref_name == 'develop' }}
+    # if: ${{ github.ref_name == 'develop' }}
     runs-on: ubuntu-latest
-    environment: development
+    environment: ${{ github.ref_name == 'main' && 'production' || 'development' }}
     steps:
       - name: Print Dev Secrets
-        run: |
-          echo "=== environment secrets ==="
-          echo "API_URL: ${{ vars.API_URL }}"
-          echo "DB_NAME: ${{ vars.DB_NAME }}"
-
-  deploy-production:
-    needs: publish-docker
-    if: ${{ github.ref_name == 'main' }}
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-      - name: Print Prod Secrets
         run: |
           echo "=== environment secrets ==="
           echo "API_URL: ${{ vars.API_URL }}"
