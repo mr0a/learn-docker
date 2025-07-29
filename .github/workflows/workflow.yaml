@@ -97,8 +97,8 @@ jobs:
       - name: Print Dev Secrets
         run: |
           echo "=== environment secrets ==="
-          echo "API_URL: $API_URL"
-          echo "DB_NAME: $DB_NAME"
+          echo "API_URL: vars.API_URL"
+          echo "DB_NAME: vars.DB_NAME"
 
   deploy-production:
     needs: publish-docker
@@ -109,5 +109,5 @@ jobs:
       - name: Print Prod Secrets
         run: |
           echo "=== environment secrets ==="
-          echo "API_URL: $API_URL"
-          echo "DB_NAME: $DB_NAME"
+          echo "API_URL: vars.API_URL"
+          echo "DB_NAME: vars.DB_NAME"
