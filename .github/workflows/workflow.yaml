@@ -96,9 +96,10 @@ jobs:
     steps:
       - name: Print Dev Secrets
         run: |
+          printenv
           echo "=== environment secrets ==="
-          echo "API_URL: vars.API_URL"
-          echo "DB_NAME: vars.DB_NAME"
+          echo "API_URL: ${{ vars.API_URL }}"
+          echo "DB_NAME: ${{ vars.DB_NAME }}"
 
   deploy-production:
     needs: publish-docker
@@ -110,5 +111,5 @@ jobs:
         run: |
           printenv
           echo "=== environment secrets ==="
-          echo "API_URL: vars.API_URL"
-          echo "DB_NAME: vars.DB_NAME"
+          echo "API_URL: ${{ vars.API_URL }}"
+          echo "DB_NAME: ${{ vars.DB_NAME }}"
