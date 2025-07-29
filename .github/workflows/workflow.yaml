@@ -1,7 +1,91 @@
-name: Hello World
-on: [push]
+name: Node-app CI/CD
+on:
+  push:
+    paths:
+      - "github-actions-exercise/exercise"
+    branches: [main, develop]
+  pull_request:
+    paths:
+      - "github-actions-exercise/exercise"
+    branches: [main, develop]
+
+env:
+  APP_PATH: github-actions-exercise/exercise
+  NODE_VERSION: 18
+
 jobs:
-  hello:
+  build:
+    strategy:
+      node: [16, 18]
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Hello from github actions"
+      - uses: actions/checkout@v4
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install Dependencies
+        working-directory: ${{ env.APP_PATH }}
+        run: npm i
+
+      - name: Build app
+        working-directory: ${{ env.APP_PATH }}
+        run: npm run build
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-build-${{ matrix.node }}
+          path: ${{ env.APP_PATH }}/dist
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      node: [16, 18]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install Dependencies
+        working-directory: ${{ env.APP_PATH }}
+        run: npm i
+
+      - name: Run test
+        working-directory: ${{ env.APP_PATH }}
+        run: npm run test
+
+  publish-docker:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download build files
+        uses: actions/download-artifact@v4
+        with:
+          name: app-build-${{ env.NODE_VERSION }}
+          path: ${{ env.APP_PATH }}/dist
+
+      - name: Build docker image
+        working-directory: ${{ env.APP_PATH }}
+        run: |
+          docker build -t node-app .
+
+      - name: Login to docker hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push image to dockerhub
+        run: |
+          IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/node-app
+          docker tag node-app:latest $IMAGE_NAME:latest
+          docker push $IMAGE_NAME:latest
