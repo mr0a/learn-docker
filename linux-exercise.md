@@ -2,7 +2,7 @@
 ## Exercise 1
 Linux & Shell scripting: Assignments to be completed [execute the commands in Linux OS only]
  
-### Assignment 1: File Management and Permissions
+### Assignment 1: File Management and Permissions ✅
 Create a directory named ~/project_files.
 Find all files in the /var/log directory that are larger than 50KB and copy them to ~/project_files.
 Change the permissions of all files in ~/project_files to:
@@ -82,30 +82,32 @@ If weak, include missing criteria
  Output format: Share separate shell scripting files for each of these exercises.
 
 
-## Exercise 2
+## Exercise 2 ✅✅
 Use Docker to:
-Pull and run Jenkins on port 8080 and HTTPD on port 8081.
-Retrieve and print the initial Jenkins admin password using a Docker command.
-Write a shell script that:
-Checks if the Jenkins container is running (using Docker commands only).
-Creates an HTML file showing Jenkins container running status.
-Copies this file into the HTTPD container so it is served on a web page.
-Note:
-All checks and operations inside your shell script should be performed using Docker commands only.
-Do not use external tools like curl or ping.
-Expected Output:
-Jenkins and HTTPD containers running on ports 8080 and 8081 respectively.
-The initial Jenkins admin password printed to the terminal using a Docker command.
-After running the shell script, visiting localhost:8081 displays the current live status of the Jenkins container.
+- Pull and run Jenkins on port 8080 and HTTPD on port 8081.
+- Retrieve and print the initial Jenkins admin password using a Docker command.
+- Write a shell script that:
+    - Checks if the Jenkins container is running (using Docker commands only).
+    - Creates an HTML file showing Jenkins container running status.
+    - Copies this file into the HTTPD container so it is served on a web page.  
+    Note:
+    - All checks and operations inside your shell script should be performed using Docker commands only.
+- Do not use external tools like curl or ping.
+- Expected Output:
+- Jenkins and HTTPD containers running on ports 8080 and 8081 respectively.
+- The initial Jenkins admin password printed to the terminal using a Docker command.
+- After running the shell script, visiting localhost:8081 displays the current live status of the Jenkins container.
 
 
-## Exercise 3
+## Exercise 3 ✅
 Dockerfile
  
 Clone/Download this project (https://github.com/varun-subramaniam/node_app.git)
 You could find a basic dockerfile and your task is to optimize it, make it secure and pass the port & mongu url as env from dockerfile
 
-## Exercise 4
+`docker image tag node-app-exercise3:latest demo:latest`
+
+## Exercise 4 ✅✅
 
 Docker Compose
 Write necessary docker files and compose file to build a three-tier application with frontend, backend and database
@@ -113,10 +115,10 @@ Codebase reference: https://github.com/ashokide/three-tier-app/  [feel free to u
 Expected Output: Three-tier application should be built and run using a single docker command. Create Dockerfile to cater to this requirement.
 Constraints:
  - Isolated Networks
-- Volumes
+ - Volumes
 
 
-## Exercise 5
+## Exercise 5 ✅✅
  
 - Set up a Node.js + TypeScript project with a working tsconfig.json, package.json, and package-lock.json. Ensure it compiles output into a dist/ folder.
 - Event triggers can be push or pull request on any branches.
