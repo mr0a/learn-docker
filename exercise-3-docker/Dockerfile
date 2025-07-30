@@ -1,8 +1,13 @@
-FROM node:18-alpine
+FROM golang:1.24.2 AS build
 WORKDIR /app
-COPY src package.json package-lock.json /app/
-RUN npm ci --omit=dev
-EXPOSE 8080
-ENTRYPOINT ["npm", "run", "start"]
-ENV SERVER_PORT=8080
-ENV MONGODB_URL=http://localhost:27013
+COPY hello.go /app/
+RUN go build -o /app/main hello.go
+
+FROM ubuntu:22.04
+RUN useradd executor
+RUN mkdir /app && chown executor:executor /app
+USER executor
+WORKDIR /app
+COPY --from=build --chown=executor:executor /app/main /app/
+# ENTRYPOINT [ "./main" ]
+# ENV USER=John
